@@ -1,7 +1,12 @@
 const App = {
     $: {
-        menu: document.querySelector(".menu"),
-        menuItems: document.querySelector(".items"),         
+        menu: document.querySelector('[data-id="menu"]'),
+        menuItems: document.querySelector('[data-id="menu-items"]'),         
+        resetBtn: document.querySelector('[data-id="reset-btn"]'),
+        newRoundBtn: document.querySelector('[data-id="new-round-btn"]'),
+        modalBtn: document.querySelector('[data-id="modal-btn"]'),
+        squares: document.querySelectorAll('[data-id="square"]')
+
     },
 
     state: {        
