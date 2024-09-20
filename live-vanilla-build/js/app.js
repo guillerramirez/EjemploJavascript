@@ -5,8 +5,10 @@ const App = {
         resetBtn: document.querySelector('[data-id="reset-btn"]'),
         newRoundBtn: document.querySelector('[data-id="new-round-btn"]'),
         modalBtn: document.querySelector('[data-id="modal-btn"]'),
-        squares: document.querySelectorAll('[data-id="square"]')
-
+        squares: document.querySelectorAll('[data-id="square"]'),
+        modal: document.querySelector('[data-id="modal"]'),
+        modalText: document.querySelector('[data-id="modal-text"]'),
+        modalBtn: document.querySelector('[data-id="modal-btn"]')
     },
 
     state: {        
@@ -82,6 +84,7 @@ const App = {
                return;
            }
 
+           //-at(-1) se coloca en la ultima posicion del arreglo
            const lastMove = App.state.moves.at(-1);
            const getOppositePlayer = (playerId) => (playerId == 1 ? 2 : 1);
 
