@@ -1,3 +1,4 @@
+import Store from "./store.js";
 import View from "./view.js";
 
 /* const App = {
@@ -140,12 +141,53 @@ import View from "./view.js";
 
 window.addEventListener("load", App.init); */
 
+
+const players = [
+    {
+        id: 1,
+        name: "Player 1",
+        iconClass: "fa-x",
+        colorClass: "turquoise",
+    },
+    {
+        id: 2,
+        name: "Player 2",
+        iconClass: "fa-0",
+        colorClass: "yellow",
+    },
+];
 function init () {
     const view = new View()
+    const store = new Store(players)
 
-    view.bindGameResetEvent(event => {
+    view.bindGameResetEvent((event) => {
         
-    })
+    });
+
+    view.bindNewRoundEven((event) => {
+
+    });
+
+    view.bindPlayerMoveEvent((square) => {
+        
+        const existingMove = store.game.moves.find(move => move.squareId == +square.id)
+
+        if (existingMove){            
+            return
+        }
+
+        //pone el icono del jugador actual
+        view.handlerPlayerMove(square, store.game.currentPlayer);
+
+        // con el + se convierte a entero
+        //y se le cambia el valor al cuurentplayer
+        //avanza al siguiente estado haciendole push de una jugada al arreglo
+        store.playerMove(+square.id)
+
+        //pone el indicador del proximo turno
+        view.setTurnIndicator(store.game.currentPlayer);
+        
+    });
 }
 
 window.addEventListener("load", init);

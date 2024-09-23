@@ -4,17 +4,17 @@ export default class View {
     $$ = {}
 
     constructor() {
-        this.$.menu = this.#qs('[data-id="menu"]')
-        this.$.menuBtn = this.#qs('[data-id="menu-btn"]')
-        this.$.menuItems = this.#qs('[data-id="menu-items"]')
-        this.$.resetBtn = this.#qs('[data-id="reset-btn"]')
-        this.$.newRoundBtn = this.#qs('[data-id="new-round-btn"]')        
-        this.$.modal = this.#qs('[data-id="modal"]')
-        this.$.modalText = this.#qs('[data-id="modal-text"]')
-        this.$.modalBtn = this.#qs('[data-id="modal-btn"]')
-        this.$.turn = this.#qs('[data-id="turn"]')
+        this.$.menu = this.#qs('[data-id="menu"]');
+        this.$.menuBtn = this.#qs('[data-id="menu-btn"]');
+        this.$.menuItems = this.#qs('[data-id="menu-items"]');
+        this.$.resetBtn = this.#qs('[data-id="reset-btn"]');
+        this.$.newRoundBtn = this.#qs('[data-id="new-round-btn"]');
+        this.$.modal = this.#qs('[data-id="modal"]');
+        this.$.modalText = this.#qs('[data-id="modal-text"]');
+        this.$.modalBtn = this.#qs('[data-id="modal-btn"]');
+        this.$.turn = this.#qs('[data-id="turn"]');
 
-        this.$$.squares = this.#qsAll('[data-id="square"]')
+        this.$$.squares = this.#qsAll('[data-id="square"]');
 
         this.$.menuBtn.addEventListener("click", (event) => {
             this.toggleMenu();
@@ -30,10 +30,13 @@ export default class View {
         this.$.newRoundBtn.addEventListener("clic", handler);
     }
 
+    //si se le pasa el handler completo, se equivoca si se le da clic al icono y no 
+    //lo diferencia del cuadro
+    //hay que pasarle especificamente el square () => handler(square) 
     bindPlayerMoveEvent(handler) {
-        this.$$.squares.foreach(square => {
-            square.addEventListener("click", handler);
-        })
+        this.$$.squares.forEach(square => {
+            square.addEventListener("click", () => handler(square));
+        });
     }
 
     #toggleMenu (){
@@ -47,23 +50,23 @@ export default class View {
 
     }
 
-    #setTurnIndicator(Player){
+    handlerPlayerMove(squareEl, player){
+        const icon = document.createElement('i');
+        icon.classList.add("fa-solid", player.iconClass, player.colorClass)
+        squareEl.replaceChildren(icon)
+    }
+
+    setTurnIndicator(player){
         const icon = document.createElement('i');
         const label = document.createElement('p');
 
-        this.$.turn.classList.add(player == 1 ? 'yellow' : 'turquoise');
-        label.classList.add(player == 1 ? 'yellow' : 'turquoise');
-
-        icon.classList.add(player == 1 ? 'fa-x': 'fa-o')
-
-        label.innerText = player == 1 ? "Player 1, te toca" : "Player 2: te toca"
+        icon.classList.add("fa-solid", player.colorClass, player.iconClass)        
+        
+        label.classList.add(player.colorClass);
+               
+        label.innerText = `${player.name}, te toca!`
 
         this.$.turn.replaceChildren(icon, label);
-
-         
-
-
-
     }
 
     //# lo hace privado
