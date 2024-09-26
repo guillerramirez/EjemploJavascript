@@ -17,13 +17,17 @@ export default class View {
         this.$$.squares = this.#qsAll('[data-id="square"]');
 
         this.$.menuBtn.addEventListener("click", (event) => {
-            this.toggleMenu();
+            this.#toggleMenu();
         });
     }
 
+    /**
+     * Register all the event listeners     
+     */
 
     bindGameResetEvent(handler){
         this.$.resetBtn.addEventListener("click", handler);
+        this.$.modalBtn.addEventListener("click", handler);
     }
 
     bindNewRoundEven(handler){
@@ -37,6 +41,25 @@ export default class View {
         this.$$.squares.forEach(square => {
             square.addEventListener("click", () => handler(square));
         });
+    }
+
+    /**
+     * DOM helper methods
+     */
+
+    openModal(message){
+        this.$.modal.classList.remove("hidden");
+        this.$.modalText.innerText = message;
+    }
+
+    closeModal() {
+        this.$.modal.classList.add("hidden");
+    }
+
+    clearMoves(){
+        this.$$.squares.forEach((square) => {
+            square.replaceChildren();
+        })
     }
 
     #toggleMenu (){

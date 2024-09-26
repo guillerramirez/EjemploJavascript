@@ -161,6 +161,13 @@ function init () {
     const store = new Store(players)
 
     view.bindGameResetEvent((event) => {
+        view.closeModal();
+
+        store.reset();
+
+        view.clearMoves();
+
+        view.setTurnIndicator(store.game.currentPlayer);
         
     });
 
@@ -183,6 +190,14 @@ function init () {
         //y se le cambia el valor al cuurentplayer
         //avanza al siguiente estado haciendole push de una jugada al arreglo
         store.playerMove(+square.id)
+
+        if (store.game.status.isComplete) {
+            view.openModal(
+                store.game.status.winner
+                ? `${store.game.status.winner.name} wins!`
+                : "Tie!"
+            )
+        }
 
         //pone el indicador del proximo turno
         view.setTurnIndicator(store.game.currentPlayer);
